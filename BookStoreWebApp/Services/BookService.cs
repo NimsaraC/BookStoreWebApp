@@ -1,4 +1,5 @@
 ﻿using BookStoreWebApp.DTOs;
+using BookStoreWebApp.Models;
 
 namespace BookStoreWebApp.Services
 {
@@ -13,11 +14,19 @@ namespace BookStoreWebApp.Services
             _logger = logger;
         }
 
-        public async Task<IEnumerable<BookDto>> GetAllBooksAsync()
+        public async Task<IEnumerable<Book>> GetAllBooksAsync()
         {
-            return await _httpClient.GetFromJsonAsync<IEnumerable<BookDto>>("api/book");
+            return await _httpClient.GetFromJsonAsync<IEnumerable<Book>>("api/book");
         }
-
+        public async Task<bool> CreateBookAsync(BookCreateDto bookCreateDto)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/book", bookCreateDto);
+            return true;
+        }
+        public async Task<BookDto> GetBookByIdAsync(int id)
+        {
+            return await _httpClient.GetFromJsonAsync<BookDto>($"api/book/{id}");
+        }
 
     }
 }

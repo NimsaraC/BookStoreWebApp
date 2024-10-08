@@ -17,5 +17,10 @@ namespace BookStoreWebApp.Services
         {
             return await _httpClient.GetFromJsonAsync<IEnumerable<OrderDto>>($"api/order/{id}");
         }
+        public async Task<bool> CreateOrderAsync(CreateOrderDto createOrderDto)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/order", createOrderDto);
+            return true;
+        }
     }
 }

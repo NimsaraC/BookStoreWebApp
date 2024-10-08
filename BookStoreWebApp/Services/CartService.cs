@@ -16,5 +16,11 @@ namespace BookStoreWebApp.Services
         {
             return await _httpClient.GetFromJsonAsync<CartDto>($"api/cart/{id}");
         }
+        public async Task<bool> AddCartAsync(AddCartItemDto addCartItemDto, int id)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"api/cart/{id}/items", addCartItemDto);
+            response.EnsureSuccessStatusCode();
+            return true;
+        }
     }
 }
