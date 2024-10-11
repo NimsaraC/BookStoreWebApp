@@ -22,5 +22,17 @@ namespace BookStoreWebApp.Services
             response.EnsureSuccessStatusCode();
             return true;
         }
+        public async Task<bool> UpdateQuantiytAsync(int editItemQuantity, int id)
+        {
+            var response = await _httpClient.PutAsJsonAsync($"api/Cart/items/{id}/quantity", editItemQuantity);
+            return response.IsSuccessStatusCode;
+        }
+        public async Task<bool> DeleteOrderAsync(int id)
+        {
+                var response = await _httpClient.DeleteAsync($"api/Cart/items/{id}");
+                response.EnsureSuccessStatusCode();
+                return true;
+        }
+
     }
 }
