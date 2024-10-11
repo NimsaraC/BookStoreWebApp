@@ -50,6 +50,15 @@ namespace BookStoreWebApp.Controllers
             ViewData["RedirectUrl"] = Url.Action("Index", "Supplier");
             return RedirectToAction("Index");
         }
+        public async Task<IActionResult> Details(int id)
+        {
+            var book = await _bookService.GetBookByIdAsync(id);
+            /*if (book == null)
+            {
+                return NotFound();
+            }*/
+            return View(book);
+        }
 
 
     }

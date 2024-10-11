@@ -1,0 +1,74 @@
+﻿@model BookStoreWebApp.DTOs.BookDto
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container">
+    <div class="col">
+        <div class="row">
+            <div class="col-3">
+                <img src="..." class="img-thumbnail" alt="...">
+            </div>
+            <div class="col">
+                <div class="row">
+                    <div class="col-2">
+                        <h2>Title: </h2>
+                    </div>
+                    <div class="col">
+                        <h2>@Model.Title</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <h4>Author: </h4>
+                    </div>
+                    <div class="col">
+                        <h4>@Model.Author</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <h4>Publisher</h4>
+                    </div>
+                    <div class="col">
+                        <h4>@Model.Publisher</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="col">
+                        <h4>Price: @Model.Price</h4>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="col">
+                        <h4>Stock: @Model.Stock</h4>
+                    </div>
+                </div>
+            </div>
+            <div class=" row"><p>@Model.Description</p></div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="col">
+                        <h4>ISBN: @Model.ISBN</h4>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="col">
+                        <h4>PublicationDate: @Model.PublicationDate</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card text-center">
+    <div class="card-body">
+        <a asp-action="AddCart" asp-route-id="@Model.Id" class="btn btn-primary">Add Cart</a>
+    </div>
+    <div class="card-footer text-body-secondary">
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>
