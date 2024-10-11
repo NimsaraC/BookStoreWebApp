@@ -61,5 +61,29 @@ namespace BookStoreWebApp.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create(UserCreateDto userCreateDto)
+        {
+            if (ModelState.IsValid)
+            {
+                await _userService.ReagisterUserAsync(userCreateDto);
+                if(userCreateDto.Role == "admin")
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Book");
+                }
+                
+            }
+            return View(userCreateDto);
+        }
     }
 }

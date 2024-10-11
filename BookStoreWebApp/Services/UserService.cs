@@ -33,5 +33,16 @@ namespace BookStoreWebApp.Services
             }
         }
 
+        public async Task<bool> ReagisterUserAsync(UserCreateDto userCreateDto)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/user", userCreateDto);
+            return true;
+        }
+
+        public async Task<UserDto> GetUserByIdAsync(int id)
+        {
+            return await _httpClient.GetFromJsonAsync<UserDto>($"api/user/{id}");
+        }
+
     }
 }
