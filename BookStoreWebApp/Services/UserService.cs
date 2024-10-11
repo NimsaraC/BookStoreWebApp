@@ -17,5 +17,21 @@ namespace BookStoreWebApp.Services
         {
             return await _httpClient.GetFromJsonAsync<IEnumerable<UserDto>>("api/user");
         }
+        public async Task<UserDto> UserLoginAsync(LoginDto login)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/user/login", login);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var user = await response.Content.ReadFromJsonAsync<UserDto>();
+
+                return user;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
     }
 }

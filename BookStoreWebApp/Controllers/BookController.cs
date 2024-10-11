@@ -1,4 +1,5 @@
 ﻿using BookStoreWebApp.DTOs;
+using BookStoreWebApp.Models;
 using BookStoreWebApp.Services;
 using Microsoft.AspNetCore.Mvc;
 

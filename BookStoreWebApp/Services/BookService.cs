@@ -14,9 +14,9 @@ namespace BookStoreWebApp.Services
             _logger = logger;
         }
 
-        public async Task<IEnumerable<Book>> GetAllBooksAsync()
+        public async Task<IEnumerable<BookDto>> GetAllBooksAsync()
         {
-            return await _httpClient.GetFromJsonAsync<IEnumerable<Book>>("api/book");
+            return await _httpClient.GetFromJsonAsync<IEnumerable<BookDto>>("api/book");
         }
         public async Task<bool> CreateBookAsync(BookCreateDto bookCreateDto)
         {

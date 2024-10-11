@@ -18,7 +18,7 @@ namespace BookStoreWebApp.Services
             return await _httpClient.GetFromJsonAsync<IEnumerable<OrderDto>>($"api/order/{id}");
         }
 
-        public async Task<IEnumerable<OrderDto>> GetAllOrdersAsync(int id)
+        public async Task<IEnumerable<OrderDto>> GetAllOrdersAsync()
         {
             return await _httpClient.GetFromJsonAsync<IEnumerable<OrderDto>>($"api/order");
         }
