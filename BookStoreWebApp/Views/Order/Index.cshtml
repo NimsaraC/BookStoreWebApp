@@ -1,123 +1,263 @@
-﻿@model IEnumerable<BookStoreWebApp.DTOs.OrderDto>
+﻿@model BookStoreWebApp.Models.UserOrder
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 class="text-center" style="margin-top:2rem; margin-bottom:2rem;">Orders</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <button class="nav-link active" id="nav-Pending-tab" data-bs-toggle="tab" data-bs-target="#nav-Pending" type="button" role="tab" aria-controls="nav-Pending" aria-selected="true">Pending</button>
+        <button class="nav-link" id="nav-Shipped-tab" data-bs-toggle="tab" data-bs-target="#nav-Shipped" type="button" role="tab" aria-controls="nav-Shipped" aria-selected="false">Shipped</button>
+        <button class="nav-link" id="nav-Completed-tab" data-bs-toggle="tab" data-bs-target="#nav-Completed" type="button" role="tab" aria-controls="nav-Completed" aria-selected="false">Completed</button>
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-Pending" role="tabpanel" aria-labelledby="nav-Pending-tab" tabindex="0">
+        @foreach (var order in Model.Orders)
+        {
+            if(order.Status == "Pending")
+            {
+                <div class="card">
+                    <div class="card-body">
 
-@foreach (var item in Model) {
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Id)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.UserId)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.DateTime)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.TotalAmount)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.AddressLine1)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.AddressLine2)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.City)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Region)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Status)
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalAmount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AddressLine1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AddressLine2)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.City)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Region)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-            <tr>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                Book
-                            </th>
-                            <th>
-                                Quantity
-                            </th>
-                            <th>
-                                Price
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var items in item.Items)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => items.BookId)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => items.Quantity)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => items.UnitPrice)
-                                </td>
-                                <td>
-                                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-        </tr>
-                </tbody>
-            </table>
-}
+                        <div class="col">
+                            <div class="row">
+                                <div class="col"><h5>Order id: @order.Id</h5></div>
+                                <div class="col"><h5>Order Date: @order.DateTime</h5></div>
+                            </div>
+                            <div class="row">
+                                <div class="col"><h5>Total: $@order.TotalAmount.ToString("F2")</h5></div>
+                                <div class="col"><h5>Order Status: @order.Status</h5></div>
+                            </div>
+
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-6"></div>
+                                <div class="col-1"><h6>Address</h6></div>
+                                <div class="col">
+                                    <div class="col">@order.AddressLine1,</div>
+                                    <div class="col">@order.AddressLine2,</div>
+                                    <div class="col">@order.City,</div>
+                                    <div class="col">@order.Region</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+
+                            <div class="accordion" id="accordionExample">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse(@order.Id)" aria-expanded="false" aria-controls="collapse(@order.Id)">
+                                            <h6>Ordered Items</h6>
+                                        </button>
+                                    </h2>
+                                    <div id="collapse(@order.Id)" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Book</th>
+                                                        <th scope="col">Quantity</th>
+                                                        <th scope="col">Price</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var items in order.Items)
+                                                    {
+                                                        var book = Model.Books.FirstOrDefault(e => e.Id == items.BookId)!;
+
+                                                        <tr>
+                                                            <td>@book.Title</td>
+                                                            <td>@items.Quantity</td>
+                                                            <td>@items.UnitPrice</td>
+                                                        </tr>
+                                                    }
+
+
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <hr style="margin-top: 1rem; margin-bottom: 1rem;" />
+            }
+            
+        }
+    </div>
+    <div class="tab-pane fade" id="nav-Shipped" role="tabpanel" aria-labelledby="nav-Shipped-tab" tabindex="0">
+        @foreach (var order in Model.Orders)
+        {
+            if (order.Status == "Shipped")
+            {
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="col">
+                            <div class="row">
+                                <div class="col"><h5>Order id: @order.Id</h5></div>
+                                <div class="col"><h5>Order Date: @order.DateTime</h5></div>
+                            </div>
+                            <div class="row">
+                                <div class="col"><h5>Total: $@order.TotalAmount.ToString("F2")</h5></div>
+                                <div class="col"><h5>Order Status: @order.Status</h5></div>
+                            </div>
+
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-6"></div>
+                                <div class="col-1"><h6>Address</h6></div>
+                                <div class="col">
+                                    <div class="col">@order.AddressLine1,</div>
+                                    <div class="col">@order.AddressLine2,</div>
+                                    <div class="col">@order.City,</div>
+                                    <div class="col">@order.Region</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+
+                            <div class="accordion" id="accordionExample">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse(@order.Id)" aria-expanded="false" aria-controls="collapse(@order.Id)">
+                                            <h6>Ordered Items</h6>
+                                        </button>
+                                    </h2>
+                                    <div id="collapse(@order.Id)" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Book</th>
+                                                        <th scope="col">Quantity</th>
+                                                        <th scope="col">Price</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var items in order.Items)
+                                                    {
+                                                        var book = Model.Books.FirstOrDefault(e => e.Id == items.BookId)!;
+
+                                                        <tr>
+                                                            <td>@book.Title</td>
+                                                            <td>@items.Quantity</td>
+                                                            <td>@items.UnitPrice</td>
+                                                        </tr>
+                                                    }
+
+
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <hr style="margin-top: 1rem; margin-bottom: 1rem;" />
+            }
+        }
+    </div>
+    <div class="tab-pane fade" id="nav-Completed" role="tabpanel" aria-labelledby="nav-Completed-tab" tabindex="0">
+        @foreach (var order in Model.Orders)
+        {
+            if (order.Status == "Completed")
+            {
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="col">
+                            <div class="row">
+                                <div class="col"><h5>Order id: @order.Id</h5></div>
+                                <div class="col"><h5>Order Date: @order.DateTime</h5></div>
+                            </div>
+                            <div class="row">
+                                <div class="col"><h5>Total: $@order.TotalAmount.ToString("F2")</h5></div>
+                                <div class="col"><h5>Order Status: @order.Status</h5></div>
+                            </div>
+
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-6"></div>
+                                <div class="col-1"><h6>Address</h6></div>
+                                <div class="col">
+                                    <div class="col">@order.AddressLine1,</div>
+                                    <div class="col">@order.AddressLine2,</div>
+                                    <div class="col">@order.City,</div>
+                                    <div class="col">@order.Region</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+
+                            <div class="accordion" id="accordionExample">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse(@order.Id)" aria-expanded="false" aria-controls="collapse(@order.Id)">
+                                            <h6>Ordered Items</h6>
+                                        </button>
+                                    </h2>
+                                    <div id="collapse(@order.Id)" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Book</th>
+                                                        <th scope="col">Quantity</th>
+                                                        <th scope="col">Price</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var items in order.Items)
+                                                    {
+                                                        var book = Model.Books.FirstOrDefault(e => e.Id == items.BookId)!;
+
+                                                        <tr>
+                                                            <td>@book.Title</td>
+                                                            <td>@items.Quantity</td>
+                                                            <td>@items.UnitPrice</td>
+                                                        </tr>
+                                                    }
+
+
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <hr style="margin-top: 1rem; margin-bottom: 1rem;" />
+            }
+        }
+    </div>
+</div>
+
+
