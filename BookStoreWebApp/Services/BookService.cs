@@ -27,6 +27,16 @@ namespace BookStoreWebApp.Services
         {
             return await _httpClient.GetFromJsonAsync<BookDto>($"api/book/{id}");
         }
+        public async Task<bool> UpdateBookAsync(int id, BookCreateDto bookCreateDto)
+        {
+                var response = await _httpClient.PutAsJsonAsync($"api/book/{id}", bookCreateDto);
+                return response.IsSuccessStatusCode;
+        }
+        public async Task<bool> DeleteBookAsync(int id)
+        {
+            var response = await _httpClient.DeleteAsync($"api/book/{id}");
+            return response.IsSuccessStatusCode;
+        }
 
     }
 }

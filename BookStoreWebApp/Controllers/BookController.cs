@@ -21,6 +21,11 @@ namespace BookStoreWebApp.Controllers
             var books = await _bookService.GetAllBooksAsync();
             return View(books);
         }
+        public async Task<IActionResult> AdminBook()
+        {
+            var books = await _bookService.GetAllBooksAsync();
+            return View(books);
+        }
         [HttpGet]
         public IActionResult Create()
         {
@@ -54,11 +59,52 @@ namespace BookStoreWebApp.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var book = await _bookService.GetBookByIdAsync(id);
-            /*if (book == null)
+            if (book == null)
             {
                 return NotFound();
-            }*/
+            }
             return View(book);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var book = await _bookService.GetBookByIdAsync(id);
+            var newBook = new BookCreateDto
+            {
+                Author = book.Author,
+                Description = book.Description,
+                ISBN = book.ISBN,
+                Price = book.Price,
+                PublicationDate = book.PublicationDate,
+                Publisher = book.Publisher,
+                Stock = book.Stock,
+                Title = book.Title,
+            };
+            if (book == null)
+            {
+                return NotFound();
+            }
+            return View(newBook);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, BookCreateDto bookCreateDto)
+        {
+
+            if (ModelState.IsValid)
+            {
+                await _bookService.UpdateBookAsync(id, bookCreateDto);
+                return RedirectToAction("AdminBook", "Book");
+            }
+            return View(bookCreateDto);
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _bookService.DeleteBookAsync(id);
+            return RedirectToAction("AdminBook", "Book");
         }
 
 

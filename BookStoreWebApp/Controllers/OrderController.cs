@@ -18,6 +18,11 @@ namespace BookStoreWebApp.Controllers
             var items = await _orderService.GetAllOrdersByUserAsync(id);
             return View(items);
         }
+        public async Task<IActionResult> AdminOrders()
+        {
+            var items = await _orderService.GetAllOrdersAsync();
+            return View(items);
+        }
         [HttpGet]
         public IActionResult MakeOrder()
         {

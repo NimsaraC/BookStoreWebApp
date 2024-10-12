@@ -1,0 +1,50 @@
+﻿@model IEnumerable<BookStoreWebApp.DTOs.BookDto>
+
+@{
+    ViewData["Title"] = "AdminBook";
+}
+
+<h1>AdminBook</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Title</th>
+            <th scope="col">Author</th>
+            <th scope="col">Pice</th>
+            <th scope="col">Stock</th>
+            <th scope="col">ISBN</th>
+            <th scope="col">Publisher</th>
+            <th scope="col">PublicationDate</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model)
+        {
+            {
+                <tr>
+                    <th scope="row">@book.Id</th>
+                    <td>@book.Title</td>
+                    <td>@book.Author</td>
+                    <td>@book.Price</td>
+                    <td>@book.Stock</td>
+                    <td>@book.ISBN</td>
+                    <td>@book.Publisher</td>
+                    <td>@book.PublicationDate</td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id=book.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id=book.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id=book.Id })
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>

@@ -1,0 +1,151 @@
+﻿@model IEnumerable<BookStoreWebApp.DTOs.OrderDto>
+
+@{
+    ViewData["Title"] = "AdminOrders";
+}
+
+<h1>AdminOrders</h1>
+
+
+<ul class="nav nav-tabs nav-fill mb-3" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">All Orders</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="Pending-tab" data-bs-toggle="tab" data-bs-target="#Pending-tab-pane" type="button" role="tab" aria-controls="Pending-tab-pane" aria-selected="false">Pending</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="Shipped-tab" data-bs-toggle="tab" data-bs-target="#Shipped-tab-pane" type="button" role="tab" aria-controls="Shipped-tab-pane" aria-selected="false">Shipped</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="Completed-tab" data-bs-toggle="tab" data-bs-target="#Completed-tab-pane" type="button" role="tab" aria-controls="Completed-tab-pane" aria-selected="false">Completed</button>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">OrderId</th>
+                    <th scope="col">Client</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">View</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model)
+                {
+                        <tr>
+                            <th scope="row">@order.Id</th>
+                            <td>@order.UserId</td>
+                            <td>@order.DateTime</td>
+                            <td>@order.TotalAmount.ToString("F2")</td>
+                        <td><span class="badge text-bg-warning">@order.Status</span></td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                        </td>
+                        </tr>
+                    
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade" id="Pending-tab-pane" role="tabpanel" aria-labelledby="Pending-tab" tabindex="0">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">OrderId</th>
+                    <th scope="col">Client</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">View</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model)
+                {
+                    if (order.Status == "Pending")
+                    {
+                        <tr>
+                            <th scope="row">@order.Id</th>
+                            <td>@order.UserId</td>
+                            <td>@order.DateTime</td>
+                            <td>@order.TotalAmount.ToString("F2")</td>
+                            <td><span class="badge text-bg-warning">@order.Status</span></td>
+                            <td>View</td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade" id="Shipped-tab-pane" role="tabpanel" aria-labelledby="Shipped-tab" tabindex="0">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">OrderId</th>
+                    <th scope="col">Client</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">View</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model)
+                {
+                    if (order.Status == "Shipped")
+                    {
+                        <tr>
+                            <th scope="row">@order.Id</th>
+                            <td>@order.UserId</td>
+                            <td>@order.DateTime</td>
+                            <td>@order.TotalAmount.ToString("F2")</td>
+                            <td><span class="badge text-bg-warning">@order.Status</span></td>
+                            <td>View</td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade" id="Completed-tab-pane" role="tabpanel" aria-labelledby="Completed-tab" tabindex="0">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">OrderId</th>
+                    <th scope="col">Client</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">View</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model)
+                {
+                    if (order.Status == "Completed")
+                    {
+                        <tr>
+                            <th scope="row">@order.Id</th>
+                            <td>@order.UserId</td>
+                            <td>@order.DateTime</td>
+                            <td>@order.TotalAmount.ToString("F2")</td>
+                            <td><span class="badge text-bg-warning">@order.Status</span></td>
+                            <td>View</td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
