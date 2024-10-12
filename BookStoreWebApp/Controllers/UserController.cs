@@ -4,16 +4,19 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using BookStoreWebApp.Models;
 
 namespace BookStoreWebApp.Controllers
 {
     public class UserController : Controller
     {
         private readonly UserService _userService;
+        private readonly OrderService _orderService;
 
-        public UserController(UserService userService)
+        public UserController(UserService userService, OrderService orderService)
         {
             _userService = userService;
+            _orderService = orderService;
         }
         public async Task<IActionResult> Index()
         {
@@ -84,6 +87,19 @@ namespace BookStoreWebApp.Controllers
                 
             }
             return View(userCreateDto);
+        }
+        public async Task<IActionResult> Details()
+        {
+            int id = 1;
+            var user = await _userService.GetUserByIdAsync(id);
+            var order = await _orderService.GetAllOrdersByUserAsync(id);
+
+            var data = new UserProfile
+            {
+                User = user,
+                Orders = order,
+            };
+            return View(data);
         }
     }
 }

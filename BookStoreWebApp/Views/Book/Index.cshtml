@@ -4,32 +4,50 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-
-    <div class="container text-center" style="margin-bottom: 5erm;">
-        <div class="row row-cols-1 row-cols-md-4 g-4" style="margin-bottom: 5erm;">
-            @foreach (var item in Model)
-            {
-                <div class="col">
-                    <div class="card">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">@item.Title</h5>
-                            <p class="card-text">@item.Price</p>
-                            <p class="card-text">Available: @item.Stock</p>
-                            <a asp-action="AddCart" asp-route-id="@item.Id" class="btn btn-primary">Add Cart</a>
-                        </div>
-                    </div>
-                </div>
-            }
+<div class="col">
+    <div class="col text-center" style="margin-top: 2rem; margin-bottom:2rem;"><h1>Book Shop</h1></div>
+    <div class="col" style="padding:2rem;">
+        <div class="input-group">
+            <input type="search"
+                   class="form-control rounded"
+                   placeholder="Search"
+                   aria-label="Search"
+                   aria-describedby="search-addon" />
+            <button type="button"
+                    class="btn btn-outline-primary"
+                    data-mdb-ripple-init>
+                search
+            </button>
         </div>
     </div>
-
-    <div>
-        <br />
-        <br />
+    <div class="col">
+        
     </div>
+
+    <div class="co" style="margin-top: 2rem;"><h2>Brows Books</h2></div>
+    <hr />
+
+    <div class="col">
+        <div class="container text-center" style="margin-bottom: 5erm">
+            <div class="row row-cols-1 row-cols-md-4 g-4"
+                 style="margin-bottom: 5erm">
+                @foreach (var item in Model)
+                {
+                    <div class="col">
+                        <div class="card">
+                            <img src="..." class="card-img-top" alt="..." />
+                            <div class="card-body">
+                                <h5 class="card-title">@item.Title</h5>
+                                <p class="card-text">@item.Price</p>
+                                <p class="card-text">Available: @item.Stock</p>
+                                <a asp-action="AddCart"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-primary">Add Cart</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
