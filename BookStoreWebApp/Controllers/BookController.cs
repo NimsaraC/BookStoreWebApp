@@ -96,7 +96,7 @@ namespace BookStoreWebApp.Controllers
             if (ModelState.IsValid)
             {
                 await _bookService.UpdateBookAsync(id, bookCreateDto);
-                return RedirectToAction("AdminBook", "Book");
+                return RedirectToAction("Index", "Admin");
             }
             return View(bookCreateDto);
         }

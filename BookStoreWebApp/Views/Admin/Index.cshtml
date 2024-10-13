@@ -322,9 +322,9 @@
                             <td>@book.Publisher</td>
                             <td>@book.PublicationDate</td>
                             <td>
-                                @Html.ActionLink("Edit", "Edit", new { id = book.Id }) |
-                                @Html.ActionLink("Details", "Details", new { id = book.Id }) |
-                                @Html.ActionLink("Delete", "Delete", new { id = book.Id })
+                                <a asp-action="Edit" asp-controller="Book" asp-route-id="@book.Id">Edit</a>
+                                <a asp-action="Details" asp-controller="Book" asp-route-id="@book.Id">Details</a>
+                                <a asp-action="Delete" asp-controller="Book" asp-route-id="@book.Id">Delete</a>
                             </td>
                         </tr>
                     }
