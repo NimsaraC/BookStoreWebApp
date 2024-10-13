@@ -26,7 +26,6 @@
 
     <div class="co" style="margin-top: 2rem;"><h2>Brows Books</h2></div>
     <hr />
-
     <div class="col">
         <div class="container text-center" style="margin-bottom: 5erm">
             <div class="row row-cols-1 row-cols-md-4 g-4"
@@ -35,7 +34,11 @@
                 {
                     <div class="col">
                         <div class="card">
-                            <img src="..." class="card-img-top" alt="..." />
+                            <img src="@item.ImagePath"
+                                 class="img-fluid rounded"
+                                 alt="Book Cover"
+                                 style="width: 100%; height: 250px; object-fit: cover;" />
+
                             <div class="card-body">
                                 <h5 class="card-title">@item.Title</h5>
                                 <p class="card-text">@item.Price</p>

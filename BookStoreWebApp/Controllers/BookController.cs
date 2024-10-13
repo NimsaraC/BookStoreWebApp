@@ -2,6 +2,7 @@
 using BookStoreWebApp.Models;
 using BookStoreWebApp.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace BookStoreWebApp.Controllers
 {
@@ -9,12 +10,13 @@ namespace BookStoreWebApp.Controllers
     {
         private readonly BookService _bookService;
         private readonly CartService _cartService;
+        private readonly IWebHostEnvironment _environment;
 
-        public BookController(BookService bookService, CartService cartService)
+        public BookController(BookService bookService, CartService cartService, IWebHostEnvironment environment)
         {
             _bookService = bookService;
             _cartService = cartService;
-
+            _environment = environment;
         }
         public async Task<IActionResult> Index()
         {
@@ -27,19 +29,73 @@ namespace BookStoreWebApp.Controllers
             return View(books);
         }
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult CreateNew()
         {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(BookCreateDto bookCreateDto)
+        public async Task<IActionResult> CreateNew(BookCreateDtoView bookCreateDto)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                await _bookService.CreateBookAsync(bookCreateDto);
-                return RedirectToAction("Index");
+                return View(bookCreateDto);
             }
-            return View(bookCreateDto);
+
+            string? imagePath = null;
+
+            if (bookCreateDto.ImageFile != null && bookCreateDto.ImageFile.Length > 0)
+            {
+                // Validate the image (e.g., size, type)
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+                var extension = Path.GetExtension(bookCreateDto.ImageFile.FileName).ToLower();
+
+                if (!allowedExtensions.Contains(extension))
+                {
+                    return BadRequest("Unsupported file type. Allowed types are .jpg, .jpeg, .png, .gif.");
+                }
+
+                // Optionally, limit the file size (e.g., 5MB)
+                if (bookCreateDto.ImageFile.Length > 5 * 1024 * 1024)
+                {
+                    return BadRequest("File size exceeds the 5MB limit.");
+                }
+
+                // Generate a unique file name
+                var fileName = Guid.NewGuid().ToString() + extension;
+                var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads");
+
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                var filePath = Path.Combine(uploadsFolder, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await bookCreateDto.ImageFile.CopyToAsync(stream);
+                }
+
+                // Set the image path relative to wwwroot
+                imagePath = $"/uploads/{fileName}";
+
+
+            }
+            var book = new BookCreateDto
+            {
+                Title = bookCreateDto.Title,
+                Description = bookCreateDto.Description,
+                Author = bookCreateDto.Author,
+                Price = bookCreateDto.Price,
+                Stock = bookCreateDto.Stock,
+                ISBN = bookCreateDto.ISBN,
+                Publisher = bookCreateDto.Publisher,
+                PublicationDate = bookCreateDto.PublicationDate,
+                ImagePath = imagePath
+            };
+
+            await _bookService.CreateBookAsync(book);
+            return RedirectToAction("Index");
         }
         public async Task<IActionResult> AddCart(int id)
         {
@@ -48,7 +104,8 @@ namespace BookStoreWebApp.Controllers
             {
                 BookId = book.Id,
                 Quantity = 1,
-                UnitPrice = book.Price
+                UnitPrice = book.Price,
+                ImagePath =book.ImagePath,
             };
             int userid = 1;
             await _cartService.AddCartAsync(item, userid);

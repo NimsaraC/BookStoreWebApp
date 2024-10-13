@@ -11,5 +11,6 @@
         public string ISBN { get; set; }
         public string Publisher { get; set; }
         public DateTime PublicationDate { get; set; }
+        public string? ImagePath { get; set; }
     }
 }
